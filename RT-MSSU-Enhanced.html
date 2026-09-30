@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ratan Tata Maharashtra State Skills University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Montserrat", "Segoe UI", system-ui, sans-serif;
+    background: #ffffff;
+    color: #222;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; }
+
+  /* Accessibility icon on left */
+  .a11y-badge {
+    position: fixed;
+    top: 300px;
+    left: 18px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #007bff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    cursor: pointer;
+  }
+  .a11y-badge svg { fill: #fff; width: 26px; height: 26px; }
+
+  /* Enquire Now Tab on right */
+  .enquire-tab {
+    position: fixed;
+    top: 45%;
+    right: 0;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: right bottom;
+    background: #2b323c;
+    color: #ffffff;
+    padding: 10px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 -3px 12px rgba(0,0,0,0.25);
+    z-index: 999;
+  }
+  .enquire-tab:hover { background: #1a1e24; }
+
+  /* Site Header & Logo */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 40px;
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .site-header .brand-logo img {
+    height: 105px;
+    object-fit: contain;
+  }
+  .header-search {
+    position: absolute;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1.5px solid #d3d7de;
+    padding-bottom: 4px;
+  }
+  .header-search svg { stroke: #5b6777; width: 18px; height: 18px; }
+  .header-search input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: inherit;
+    color: #444;
+    width: 170px;
+  }
+
+  /* Main Navigation Bar */
+  .main-nav {
+    background: #091a42;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  }
+  .menu-toggle { display: none; }
+  .nav-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+  }
+  .nav-container li a {
+    display: block;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 16px 28px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-container li a.active {
+    border-bottom: 3px solid #ffffff;
+  }
+  .nav-container li a:hover {
+    background: #14295c;
+    color: #f08a1c;
+  }
+  .nav-container li a span {
+    font-size: 11px;
+    margin-left: 4px;
+  }
+
+  /* Hero Banner */
+  .hero-section {
+    position: relative;
+    height: 520px;
+    background: linear-gradient(rgba(0, 15, 40, 0.42), rgba(0, 10, 30, 0.65)),
+                url("https://mssu.ac.in/wp-content/uploads/2023/10/banner-img-scaled.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 0 80px;
+  }
+  .hero-content {
+    max-width: 780px;
+    z-index: 2;
+  }
+  .hero-content h1 {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 14px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  }
+  .hero-content p {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 26px;
+    color: #f7f9fc;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+  }
+  .hero-btn {
+    display: inline-block;
+    background: #1a4d80;
+    color: #fff;
+    padding: 12px 36px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  }
+  .hero-btn:hover {
+    background: #0f355c;
+    transform: translateY(-2px);
+  }
+  .slider-dots {
+    position: absolute;
+    bottom: 30px;
+    right: 80px;
+    display: flex;
+    gap: 10px;
+  }
+  .dot-item {
+    width: 12px;
+    height: 12px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+  }
+  .dot-item.active { background: #ffffff; }
+
+  /* 3 Action Cards */
+  .quick-links {
+    max-width: 1200px;
+    margin: 60px auto 120px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .link-card {
+    background: #fff;
+    border: 1px solid #e1e7f0;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 30, 80, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .link-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(0, 30, 80, 0.12);
+  }
+  .link-card .card-art {
+    height: 190px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .link-card .card-art svg {
+    height: 120px;
+    stroke: #255d8f;
+  }
+  .link-card .card-btn {
+    width: 100%;
+    padding: 16px 20px;
+    background: #17426b;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: background 0.2s;
+  }
+  .link-card .card-btn:hover { background: #0f2c49; }
+
+  /* Tablet */
+  @media (max-width: 1024px) {
+    .nav-container li a { padding: 16px 16px; font-size: 14px; }
+    .hero-section { padding: 0 48px; }
+    .slider-dots { right: 48px; }
+    .quick-links { gap: 20px; }
+    .link-card .card-btn { font-size: 15px; }
+  }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    /* Header */
+    .site-header { padding: 12px 16px; }
+    .site-header .brand-logo img { height: 64px; }
+    .header-search { display: none; }
+
+    /* Hamburger nav */
+    .menu-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 14px 20px;
+      background: none;
+      border: 0;
+      color: #fff;
+      font: 600 15px "Montserrat", sans-serif;
+      cursor: pointer;
+    }
+    .menu-toggle .bars { font-size: 20px; line-height: 1; }
+    .nav-container { display: none; flex-direction: column; justify-content: flex-start; }
+    .nav-container.open { display: flex; }
+    .nav-container li a {
+      padding: 14px 20px;
+      border-top: 1px solid rgba(255,255,255,0.12);
+    }
+    .nav-container li a.active {
+      border-bottom: 0;
+      border-left: 4px solid #f08a1c;
+    }
+
+    /* Hero */
+    .hero-section {
+      height: auto;
+      min-height: 380px;
+      padding: 48px 20px 72px;
+    }
+    .hero-content h1 br { display: none; }
+    .hero-content h1 { font-size: 28px; }
+    .hero-content p { font-size: 18px; margin-bottom: 20px; }
+    .slider-dots { right: auto; left: 20px; bottom: 24px; }
+
+    /* Cards */
+    .quick-links {
+      grid-template-columns: 1fr;
+      max-width: 480px;
+      gap: 20px;
+      margin: 32px auto 110px; /* space for chat launcher */
+    }
+    .link-card .card-art { height: 150px; }
+    .link-card .card-art svg { height: 96px; }
+
+    /* Floating widgets */
+    .a11y-badge {
+      top: auto;
+      bottom: 16px;
+      left: 12px;
+      width: 40px;
+      height: 40px;
+    }
+    .a11y-badge svg { width: 22px; height: 22px; }
+    .enquire-tab { padding: 8px 16px; font-size: 11px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-content h1 { font-size: 24px; }
+    .hero-content p { font-size: 16px; }
+    .hero-btn { display: block; text-align: center; padding: 12px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Accessibility Icon -->
+<div class="a11y-badge" title="Accessibility Tools">
+  <svg viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/></svg>
+</div>
+
+<!-- Enquire Now Tab -->
+<a href="https://mssu.ac.in/enquiry-form/" target="_blank" class="enquire-tab">Enquire Now</a>
+
+<!-- Site Header -->
+<header class="site-header">
+  <a href="https://mssu.ac.in/" class="brand-logo">
+    <img src="https://mssu.ac.in/wp-content/uploads/2021/01/rtmssu_100-2.png" alt="Ratan Tata Maharashtra State Skills University">
+  </a>
+  <div class="header-search">
+    <svg fill="none" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
+    <input type="text" placeholder="Search...">
+  </div>
+</header>
+
+<!-- Main Navigation -->
+<nav class="main-nav">
+  <button class="menu-toggle" aria-expanded="false" aria-controls="navMenu">
+    Menu <span class="bars">☰</span>
+  </button>
+  <ul class="nav-container" id="navMenu">
+    <li><a href="#" class="active">Home</a></li>
+    <li><a href="https://mssu.ac.in/about-mssu/" target="_blank">About <span>▼</span></a></li>
+    <li><a href="https://mssu.ac.in/school-of-science-engineering-and-technology-skills/" target="_blank">Skill Schools <span>▼</span></a></li>
+    <li><a href="https://mssu.ac.in/student-corner/" target="_blank">Student Corner <span>▼</span></a></li>
+    <li><a href="https://mssu.ac.in/centres/" target="_blank">Centres <span>▼</span></a></li>
+    <li><a href="https://mssu.ac.in/notices/" target="_blank">Updates</a></li>
+  </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1>Maharashtra's First Skills<br>University by Government of<br>Maharashtra</h1>
+    <p>2026 Applications are Now Open</p>
+    <a href="https://apps.mssu.ac.in/Adm/Login.aspx" target="_blank" class="hero-btn">Admissions</a>
+  </div>
+  <div class="slider-dots">
+    <span class="dot-item"></span>
+    <span class="dot-item active"></span>
+    <span class="dot-item"></span>
+  </div>
+</section>
+
+<!-- 3 Quick Action Cards -->
+<section class="quick-links">
+  <div class="link-card">
+    <div class="card-art">
+      <svg viewBox="0 0 120 120" fill="none" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="25" y="20" width="70" height="85" rx="3"/>
+        <path d="M45 42h30M45 56h30M45 70h20"/>
+        <circle cx="85" cy="30" r="12" fill="#fff"/>
+        <path d="M85 24v12M79 30h12"/>
+      </svg>
+    </div>
+    <a href="https://mssu.ac.in/international-jobs-skilling/" target="_blank" class="card-btn">International Jobs & Skilling</a>
+  </div>
+
+  <div class="link-card">
+    <div class="card-art">
+      <svg viewBox="0 0 120 120" fill="none" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="60,25 15,48 60,71 105,48"/>
+        <path d="M30 58v25c0 14 30 18 30 18s30-4 30-18V58"/>
+        <path d="M96 52v30"/>
+      </svg>
+    </div>
+    <a href="https://mssu.ac.in/short-term-skilling-certifications/" target="_blank" class="card-btn">Short Certifications</a>
+  </div>
+
+  <div class="link-card">
+    <div class="card-art">
+      <svg viewBox="0 0 120 120" fill="none" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="20" y="32" width="80" height="60" rx="4"/>
+        <path d="M20 36l40 32 40-32"/>
+        <path d="M50 80h20"/>
+      </svg>
+    </div>
+    <a href="https://apps.mssu.ac.in/Adm/Login.aspx" target="_blank" class="card-btn">Apply now</a>
+  </div>
+</section>
+
+<!-- Mobile menu toggle -->
+<script>
+  (function () {
+    var mt = document.querySelector('.menu-toggle'), nm = document.getElementById('navMenu');
+    mt.addEventListener('click', function () {
+      var open = nm.classList.toggle('open');
+      mt.setAttribute('aria-expanded', open);
+    });
+    nm.addEventListener('click', function (e) {
+      if (e.target.closest('a') && nm.classList.contains('open')) {
+        nm.classList.remove('open');
+        mt.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+</script>
+
+<!-- ===== PREMIUM REAL DIALOGFLOW CHATBOT ===== -->
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+
+<style>
+  /* ===== RT-MSSU PREMIUM CHATBOT ===== */
+  df-messenger {
+    --df-messenger-button-titlebar-color: #173b7a;
+    --df-messenger-button-titlebar-font-color: #ffffff;
+    --df-messenger-chat-background-color: #f8fafc;
+    --df-messenger-font-color: #26344d;
+    --df-messenger-send-icon: #e87516;
+    --df-messenger-user-message: #eaf1ff;
+    --df-messenger-bot-message: #ffffff;
+    --df-messenger-chip-color: #ffffff;
+    --df-messenger-chip-border-color: #cbd7ea;
+    --df-messenger-input-box-color: #ffffff;
+    --df-messenger-input-font-color: #26344d;
+    --df-messenger-input-placeholder-font-color: #8792a6;
+    z-index: 2147483000;
+  }
+
+  /* Premium floating launcher */
+  .rtm-chat-launcher {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 2147482999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 0;
+    padding: 7px 18px 7px 7px;
+    border-radius: 50px;
+    background: linear-gradient(135deg,#173b7a,#24559d);
+    color: #fff;
+    font: 700 14px "Plus Jakarta Sans","Segoe UI",sans-serif;
+    box-shadow: 0 12px 35px rgba(23,59,122,.25);
+    cursor: pointer;
+  }
+
+  .rtm-chat-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #fff;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,.35);
+  }
+
+  .rtm-chat-avatar img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+  }
+
+  .rtm-chat-copy {
+    text-align: left;
+    line-height: 1.2;
+  }
+
+  .rtm-chat-copy strong {
+    display: block;
+    font-size: 14px;
+  }
+
+  .rtm-chat-copy small {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    opacity: .8;
+  }
+
+  .rtm-online {
+    width: 9px;
+    height: 9px;
+    background: #35c978;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(53,201,120,.16);
+    margin-left: 2px;
+  }
+
+  /* Small welcome bubble */
+  .rtm-chat-hint {
+    position: fixed;
+    right: 25px;
+    bottom: 88px;
+    z-index: 2147482998;
+    background: #fff;
+    color: #26344d;
+    padding: 11px 15px;
+    border-radius: 14px;
+    font: 600 12.5px "Plus Jakarta Sans","Segoe UI",sans-serif;
+    box-shadow: 0 10px 30px rgba(16,40,92,.16);
+    border: 1px solid #e5e9f2;
+    animation: rtmFloat 3s ease-in-out infinite;
+  }
+
+  .rtm-chat-hint:after {
+    content:"";
+    position:absolute;
+    right:24px;
+    bottom:-6px;
+    width:11px;
+    height:11px;
+    background:#fff;
+    border-right:1px solid #e5e9f2;
+    border-bottom:1px solid #e5e9f2;
+    transform:rotate(45deg);
+  }
+
+  @keyframes rtmFloat {
+    0%,100% { transform:translateY(0); }
+    50% { transform:translateY(-4px); }
+  }
+
+  /* Desktop Dialogflow window polish */
+  @media (min-width: 601px) {
+    df-messenger {
+      --df-messenger-chat-window-width: 410px;
+      --df-messenger-chat-window-height: 650px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .rtm-chat-launcher {
+      right: 14px;
+      bottom: 14px;
+      padding-right: 15px;
+    }
+
+    .rtm-chat-copy strong { font-size: 13px; }
+    .rtm-chat-copy small { font-size: 10px; }
+
+    .rtm-chat-hint {
+      right: 14px;
+      bottom: 77px;
+      max-width: 220px;
+    }
+  }
+</style>
+
+<div class="rtm-chat-hint">👋 Need help with admissions?</div>
+
+<button class="rtm-chat-launcher" id="rtmChatLauncher" type="button"
+        aria-label="Open RT-MSSU Assistant">
+  <span class="rtm-chat-avatar">
+    <img src="https://mssu.ac.in/wp-content/uploads/2021/01/rtmssu_100-2.png"
+         alt="RT-MSSU">
+  </span>
+  <span class="rtm-chat-copy">
+    <strong>RT-MSSU Assistant</strong>
+    <small>Admissions • Courses • Student Help</small>
+  </span>
+  <span class="rtm-online"></span>
+</button>
+
+<df-messenger
+  id="rtmDialogflow"
+  intent="WELCOME"
+  chat-title="RT-MSSU Assistant"
+  agent-id="8c1028bb-ff9b-4c9d-a809-0d914a3e594f"
+  language-code="en">
+</df-messenger>
+
+<style>
+.rtm-tools {position:fixed;left:18px;bottom:18px;z-index:1000;width:min(350px,calc(100vw - 36px));background:white;color:#26344d;border:1px solid #cad5e5;border-radius:14px;padding:16px;font:14px "Segoe UI",sans-serif;box-shadow:0 8px 30px #173b7a22;max-height:60vh;overflow:auto}
+.rtm-tools summary {cursor:pointer;font-weight:700;color:#173b7a}
+.rtm-tools button {padding:8px 10px;margin:4px 2px;border:1px solid #cad5e5;background:#f5f8ff;border-radius:7px;cursor:pointer;color:#173b7a}
+.rtm-tools pre {white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px}
+.rtm-tools p {margin:10px 0;line-height:1.5}
+@media(max-width:600px){.rtm-tools{bottom:90px;max-height:40vh}}
+@media(prefers-reduced-motion:reduce){.rtm-chat-hint{animation:none}}
+</style>
+<details class="rtm-tools" id="rtmTools">
+<summary>Assistant tools &amp; NLP demo</summary>
+<p id="rtmStatus" role="status" aria-live="polite">Loading Dialogflow…</p>
+<button id="rtmSuggestions" type="button" disabled>Show suggested questions</button>
+<button id="rtmExport" type="button" disabled>Download transcript</button>
+<p>Transcript stays in this tab until you download it. Refresh clears the local record.</p>
+<label><input type="checkbox" id="rtmDemo"> Show live NLP details</label>
+<pre id="rtmNlp" hidden>Ask a question to inspect the real Dialogflow response.</pre>
+</details>
+<script>
+(function () {
+  const messenger = document.getElementById('rtmDialogflow');
+  const launcher = document.getElementById('rtmChatLauncher');
+  const hint = document.querySelector('.rtm-chat-hint');
+  const status = document.getElementById('rtmStatus');
+  const nlp = document.getElementById('rtmNlp');
+  const suggestions = document.getElementById('rtmSuggestions');
+  const exportButton = document.getElementById('rtmExport');
+  const transcript = [];
+  let ready = false, started = null, timer;
+  const chips = [{type:'chips',options:[{text:'How can I apply for admission?'},{text:'What courses are available?'},{text:'Tell me about B.Tech'},{text:'What scholarships are available?'},{text:'How can I contact admissions?'}]}];
+  const bootTimer = setTimeout(() => {if(!ready) status.textContent='Dialogflow has not loaded. Check your connection, enable Messenger integration, then refresh.';},15000);
+  function showSuggestions(){
+    if(ready && typeof messenger.renderCustomCard === 'function') messenger.renderCustomCard(chips);
+  }
+  messenger.addEventListener('df-messenger-loaded', () => {
+    ready = true;clearTimeout(bootTimer);suggestions.disabled=false;
+    status.textContent='Dialogflow loaded. Send a question to test the agent.';
+    showSuggestions();
+  });
+  launcher.addEventListener('click', () => {
+    if(hint) hint.hidden=true;
+    if(!ready){document.getElementById('rtmTools').open=true;return;}
+    // The existing custom launcher depends on Messenger's internal button.
+    // Keep Google's native launcher available as a compatibility fallback.
+    const button=messenger.shadowRoot && messenger.shadowRoot.querySelector('button');
+    if(button) button.click();
+    else {document.getElementById('rtmTools').open=true;status.textContent='Use the Dialogflow chat button in the lower right to open the conversation.';}
+  });
+  suggestions.addEventListener('click',showSuggestions);
+  messenger.addEventListener('df-request-sent', e => {
+    started=performance.now();status.textContent='Waiting for Dialogflow…';clearTimeout(timer);
+    const input=e.detail?.requestBody?.queryInput?.text?.text;
+    if(input){transcript.push({role:'User',text:input});exportButton.disabled=false;}
+    timer=setTimeout(()=>{status.textContent='The reply is taking longer than expected. Check your connection before trying again.';},20000);
+  });
+  messenger.addEventListener('df-response-received', e => {
+    clearTimeout(timer);
+    const result=e.detail?.response?.queryResult;
+    const elapsed=started===null?null:Math.round(performance.now()-started);started=null;
+    status.textContent=elapsed===null?'Response received.':'Response received in '+elapsed+' ms.';
+    if(!result){nlp.textContent='This integration did not expose queryResult. Inspect the intent in the Dialogflow console.';return;}
+    const texts=result.fulfillmentMessages?.flatMap(m=>m.text?.text || []) || [];
+    if(!texts.length && result.fulfillmentText) texts.push(result.fulfillmentText);
+    texts.forEach(text=>transcript.push({role:'Assistant',text}));
+    if(transcript.length) exportButton.disabled=false;
+    nlp.textContent=JSON.stringify({intent:result.intent?.displayName ?? 'Not exposed',confidence:result.intentDetectionConfidence ?? 'Not exposed',parameters:result.parameters ?? {},contexts:(result.outputContexts || []).map(c=>({name:c.name.split('/').pop(),lifespan:c.lifespanCount})),latencyMs:elapsed},null,2);
+  });
+  messenger.addEventListener('df-messenger-error', () => {clearTimeout(timer);started=null;status.textContent='Could not reach the agent. Check Messenger integration and your connection, then retry.';});
+  document.getElementById('rtmDemo').addEventListener('change',e=>{nlp.hidden=!e.target.checked;});
+  exportButton.addEventListener('click',()=>{
+    const text='RT-MSSU Assistant transcript\nText messages captured in this tab only. Rich cards and earlier sessions are excluded.\n\n'+transcript.map(x=>x.role+': '+x.text).join('\n\n');
+    const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));
+    const a=document.createElement('a');a.href=url;a.download='rt-mssu-transcript.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+  setTimeout(()=>{if(hint)hint.hidden=true;},7000);
+})();
+</script>
+<!-- ===== end of embed code ===== -->
+</body>
+</html>
