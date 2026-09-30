@@ -600,7 +600,7 @@
 <p id="rtmStatus" role="status" aria-live="polite">Loading Dialogflow…</p>
 <button id="rtmSuggestions" type="button" disabled>Show suggested questions</button>
 <button id="rtmExport" type="button" disabled>Download transcript</button>
-<p>Transcript stays in this tab until you download it. Refresh clears the local record.</p>
+<p>Each download includes the latest messages in this tab. Refresh starts a new local record.</p>
 <label><input type="checkbox" id="rtmDemo"> Show live NLP details</label>
 <pre id="rtmNlp" hidden>Ask a question to inspect the real Dialogflow response.</pre>
 </details>
@@ -615,6 +615,21 @@
   const exportButton = document.getElementById('rtmExport');
   const transcript = [];
   let ready = false, started = null, timer;
+  let enteredInput = null;
+  function captureUser(text) {
+    if (typeof text !== 'string' || !text.trim()) return;
+    transcript.push({role:'User', text, time:new Date().toISOString()});
+    exportButton.disabled=false;
+  }
+  // Capture at the UI boundary, including suggested-question clicks.
+  messenger.addEventListener('df-user-input-entered', e => {
+    enteredInput=e.detail?.input ?? null;
+    captureUser(enteredInput);
+  });
+  messenger.addEventListener('df-chip-clicked', e => {
+    const text=e.detail?.query;
+    if(text && enteredInput !== text){enteredInput=text;captureUser(text);}
+  });
   const chips = [{type:'chips',options:[{text:'How can I apply for admission?'},{text:'What courses are available?'},{text:'Tell me about B.Tech'},{text:'What scholarships are available?'},{text:'How can I contact admissions?'}]}];
   const bootTimer = setTimeout(() => {if(!ready) status.textContent='Dialogflow has not loaded. Check your connection, enable Messenger integration, then refresh.';},15000);
   function showSuggestions(){
@@ -638,27 +653,33 @@
   messenger.addEventListener('df-request-sent', e => {
     started=performance.now();status.textContent='Waiting for Dialogflow…';clearTimeout(timer);
     const input=e.detail?.requestBody?.queryInput?.text?.text;
-    if(input){transcript.push({role:'User',text:input});exportButton.disabled=false;}
+    if(input && input !== enteredInput) captureUser(input);
+    enteredInput=null;
     timer=setTimeout(()=>{status.textContent='The reply is taking longer than expected. Check your connection before trying again.';},20000);
   });
   messenger.addEventListener('df-response-received', e => {
     clearTimeout(timer);
-    const result=e.detail?.response?.queryResult;
+    const response=e.detail?.response;
+    const result=response?.queryResult ?? (Array.isArray(response) ? response[0]?.queryResult : undefined);
     const elapsed=started===null?null:Math.round(performance.now()-started);started=null;
     status.textContent=elapsed===null?'Response received.':'Response received in '+elapsed+' ms.';
     if(!result){nlp.textContent='This integration did not expose queryResult. Inspect the intent in the Dialogflow console.';return;}
     const texts=result.fulfillmentMessages?.flatMap(m=>m.text?.text || []) || [];
     if(!texts.length && result.fulfillmentText) texts.push(result.fulfillmentText);
-    texts.forEach(text=>transcript.push({role:'Assistant',text}));
+    texts.forEach(text=>transcript.push({role:'Assistant',text,time:new Date().toISOString()}));
     if(transcript.length) exportButton.disabled=false;
     nlp.textContent=JSON.stringify({intent:result.intent?.displayName ?? 'Not exposed',confidence:result.intentDetectionConfidence ?? 'Not exposed',parameters:result.parameters ?? {},contexts:(result.outputContexts || []).map(c=>({name:c.name.split('/').pop(),lifespan:c.lifespanCount})),latencyMs:elapsed},null,2);
   });
   messenger.addEventListener('df-messenger-error', () => {clearTimeout(timer);started=null;status.textContent='Could not reach the agent. Check Messenger integration and your connection, then retry.';});
   document.getElementById('rtmDemo').addEventListener('change',e=>{nlp.hidden=!e.target.checked;});
   exportButton.addEventListener('click',()=>{
-    const text='RT-MSSU Assistant transcript\nText messages captured in this tab only. Rich cards and earlier sessions are excluded.\n\n'+transcript.map(x=>x.role+': '+x.text).join('\n\n');
+    if (!transcript.length) {status.textContent='Send a message before downloading a transcript.';return;}
+    const downloadedAt=new Date();
+    // Build a fresh snapshot on EVERY click. Keep history for later exports.
+    const snapshot=transcript.map(message=>({...message}));
+    const text='RT-MSSU Assistant transcript\nDownloaded: '+downloadedAt.toISOString()+'\nMessages: '+snapshot.length+'\nCurrent-tab text only. Rich cards and earlier sessions are excluded.\n\n'+snapshot.map(x=>x.role+': '+x.text).join('\n\n');
     const url=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));
-    const a=document.createElement('a');a.href=url;a.download='rt-mssu-transcript.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    const a=document.createElement('a');a.href=url;a.download='rt-mssu-transcript-'+downloadedAt.toISOString().replace(/[:.]/g,'-')+'.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
   });
   setTimeout(()=>{if(hint)hint.hidden=true;},7000);
 })();
